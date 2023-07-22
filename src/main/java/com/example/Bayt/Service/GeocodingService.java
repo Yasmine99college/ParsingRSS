@@ -11,7 +11,6 @@ public class GeocodingService {
     private final GeoApiContext geoApiContext;
 
     public GeocodingService() {
-        // Initialize the GeoApiContext with your Google Geocoding API key
         geoApiContext = new GeoApiContext.Builder()
                 .apiKey("AIzaSyAPq3I83iYEmb4OAL223HrNcV0POxj1e3Q")
                 .build();

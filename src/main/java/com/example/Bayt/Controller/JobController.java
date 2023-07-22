@@ -28,7 +28,7 @@ public class JobController {
         String rssUrl = "https://careers.moveoneinc.com/rss/all-rss.xml/";
         List<Job> jobs = parser.fetchJobsFromRssFeed(rssUrl);
 
-        model.addAttribute("jobs", jobs); // Pass job titles, locations, and coordinates to the template
+        model.addAttribute("jobs", jobs);
 
         return "job-list";
     }

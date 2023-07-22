@@ -22,7 +22,7 @@ public class ParserService {
     public List<Job> fetchJobsFromRssFeed(String rssUrl) {
         List<Job> jobs = new ArrayList<>();
         try {
-            URL url = new URL("https://careers.moveoneinc.com/rss/all-rss.xml/");
+            URL url = new URL(rssUrl);
             SyndFeedInput input = new SyndFeedInput();
             SyndFeed feed = input.build(new XmlReader(url));
 
@@ -30,17 +30,15 @@ public class ParserService {
                 String title = entry.getTitle();
                 String location = parseLocationFromDescription(entry.getDescription().getValue());
 
-                // Use the GeocodingService to get coordinates for the location
                 GeocodingResult[] geocodingResults = geocodingService.geocode(location);
 
                 if (geocodingResults != null && geocodingResults.length > 0) {
-                    // Get the first result (assuming it's the most accurate)
                     double latitude = geocodingResults[0].geometry.location.lat;
                     double longitude = geocodingResults[0].geometry.location.lng;
 
                     jobs.add(new Job(title, location, latitude, longitude));
                 } else {
-                    jobs.add(new Job(title, location, 0, 0)); // Default to 0,0 if coordinates not found
+                    jobs.add(new Job(title, location, 0, 0));
                 }
             }
         } catch (Exception e) {
@@ -50,9 +48,7 @@ public class ParserService {
     }
 
     private String parseLocationFromDescription(String description) {
-        // Implement logic to extract location from the job description or other fields
-        // You may use regular expressions, string manipulation, or any other suitable approach.
-        // For simplicity, let's assume the location is in the format "City, Country" in the description.
+
         String[] parts = description.split(",");
         if (parts.length >= 2) {
             return parts[0].trim() + ", " + parts[1].trim();
