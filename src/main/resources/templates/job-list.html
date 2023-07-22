@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  lang="en">
+<head>
+    <title>Bayt Job List</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPq3I83iYEmb4OAL223HrNcV0POxj1e3Q&callback=initMap" async defer></script>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 0, lng: 0 },
+                zoom: 2
+            });
+
+            var jobs = /*[[${jobs}]]*/ []; // Jobs data including title, location, and coordinates
+
+            for (var i = 0; i < jobs.length; i++) {
+                var job = jobs[i];
+                var title = job.title;
+                var location = job.location;
+                var latitude = job.latitude;
+                var longitude = job.longitude;
+
+                var marker = new google.maps.Marker({
+                    position: { lat: latitude, lng: longitude },
+                    map: map,
+                    title: title
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Bayt Job List</h1>
+<table>
+    <tr th:each="job : ${jobs}">
+        <td th:text="${job.title}"></td>
+        <td th:text="${job.location}"></td>
+    </tr>
+</table>
+
+<div id="map" style="height: 400px; width: 100%;"></div>
+</body>
+</html>
